@@ -62,32 +62,40 @@ public class AddressBookMethods {
     public void addContact(ArrayList<Contact> contactList) {
         System.out.println("\nCreating a new contact!");
         System.out.print("Enter First Name :	");
-        String firstname = sc.next();
-        System.out.print("Enter Last Name :	");
-        String lastname = sc.next();
-        System.out.print("Enter City :	");
-        String city = sc.next();
-        System.out.print("Enter State :	");
-        String state = sc.next();
-        System.out.print("Enter zip :	");
-        int zip = sc.nextInt();
-        System.out.print("Enter Phone Number :	");
-        String number = sc.next();
-        System.out.print("Enter Email Address :	");
-        String email = sc.next();
+        String name = sc.next();
 
-        Contact newcontact = new Contact();
-        Address address = new Address();
-        newcontact.setFirstName(firstname);
-        newcontact.setLastName(lastname);
-        address.setCity(city);
-        address.setState(state);
-        address.setZip(zip);
-        newcontact.setAddress(address);
-        newcontact.setPhoneNumber(number);
-        newcontact.setEmailID(email);
+        boolean contactExists = contactList.stream().anyMatch(entry -> entry.firstName.equals(name));
 
-        contactList.add(newcontact);
+        if (contactExists) {
+            System.out.println("\nThis conatct already exists!\nPlease try adding a new conatct.");
+        }
+        else {
+            System.out.print("Enter Last Name :	");
+            String lastname = sc.next();
+            System.out.print("Enter City :	");
+            String city = sc.next();
+            System.out.print("Enter State :	");
+            String state = sc.next();
+            System.out.print("Enter zip :	");
+            int zip = sc.nextInt();
+            System.out.print("Enter Phone Number :	");
+            String number = sc.next();
+            System.out.print("Enter Email Address :	");
+            String email = sc.next();
+
+            Contact newcontact = new Contact();
+            Address address = new Address();
+            newcontact.setFirstName(name);
+            newcontact.setLastName(lastname);
+            address.setCity(city);
+            address.setState(state);
+            address.setZip(zip);
+            newcontact.setAddress(address);
+            newcontact.setPhoneNumber(number);
+            newcontact.setEmailID(email);
+
+            contactList.add(newcontact);
+        }
     }
 
     public String toString(ArrayList<Contact> contactList) {
@@ -101,7 +109,7 @@ public class AddressBookMethods {
     public void displayAddressBook(String addressbook, ArrayList<Contact> contactList) {
         System.out.println("\n\n------- " + addressbook + " Address Book -------");
         for (int i = 0; i < contactList.size(); i++)
-            System.out.println("\n" + contactList.get(i) + "\n----------------------------");
+            System.out.println("\n"+contactList.get(i));
         System.out.println();
     }
 

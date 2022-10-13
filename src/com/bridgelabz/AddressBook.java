@@ -5,14 +5,60 @@ import java.util.Scanner;
 
 public class AddressBook {
     static Scanner sc = new Scanner(System.in);
+    ArrayList<Contact> contactList = new ArrayList<>();
 
-    public static void main(String[] args) {
-        AddressBook entry = new AddressBook();
+    public void manageAddressBook() {
+        int choice = 0;
 
-        System.out.println("Welcome to Address Book Program in Java!");
-        System.out.println("You can create Contacts in the Address Book with first/last names, address, city, state, zip, phone number and email and so on");
+        do {
+            do {
+                System.out.println("\nWhich of the following operations would you like to perform?");
+                System.out.println("1. Add a New contact");
+                System.out.println("2. Edit an Existing contact");
+                System.out.println("3. Delete an Existing contact");
+                System.out.println("4. Display the Address Book");
+                System.out.println("5. Exit");
+                System.out.print("\nEnter your choice : ");
+                choice = sc.nextInt();
 
-        entry.addContact();
+                if (!(choice >= 1 && choice <= 5))
+                    System.out.println("\nInvalid choice!\nPlease try again.\n");
+            } while (!(choice >= 1 && choice <= 5));
+
+            switch (choice) {
+                case 1:
+                    addContact();
+                    break;
+
+                case 2:
+                    editContact();
+                    break;
+
+                case 3:
+                    deleteContact();
+                    break;
+
+                case 4:
+                    displayAddressBook();
+                    break;
+
+                case 5:
+                    System.out.println("\nEXITED");
+                    break;
+            }
+        } while (choice != 5);
+    }
+
+    public Contact getContactToModify(String name) {
+        Contact contact = null;
+
+        for (int i = 0; i < contactList.size(); i++) {
+            Contact temp = contactList.get(i);
+            if (name.equalsIgnoreCase(temp.firstName)) {
+                contact = temp;
+            }
+        }
+        return contact;
     }
 
     public void addContact() {
@@ -36,40 +82,53 @@ public class AddressBook {
         Address address = new Address();
         newcontact.setFirstName(firstname);
         newcontact.setLastName(lastname);
-        newcontact.setPhoneNumber(number);
-        newcontact.setEmailID(email);
         address.setCity(city);
         address.setState(state);
         address.setZip(zip);
         newcontact.setAddress(address);
-
-        ArrayList contactList =new ArrayList<>();
+        newcontact.setPhoneNumber(number);
+        newcontact.setEmailID(email);
 
         contactList.add(newcontact);
-        displayContact(newcontact);
-        editContact(newcontact);
-        System.out.println("\nDo you want to delete the contact?");
-        System.out.print("Enter 'Yes' or 'No' : ");
-        char continueEdit = sc.next().charAt(0);
-        if (continueEdit == 'Y' || continueEdit == 'y') {
-            deleteContact(newcontact);
+    }
 
-        }
-        else if (continueEdit == 'N' || continueEdit == 'n') {
-            System.out.println("\n\nHere is the updated Address Book.");
-            displayContact(newcontact);
-        }
-        else {
-            System.out.println("\nInvalid Input.\nPlease try again!");
-        }
+    @Override
+    public String toString() {
+        return "\nAddressBook [\nContact List" + contactList + "\n]";
     }
 
     public void displayContact(Contact contact) {
         System.out.println(contact);
     }
 
-    public void editContact(Contact contact) {
+    public void displayAddressBook() {
+        System.out.println("\n\n------- Address Book -------");
+        for (int i = 0; i < contactList.size(); i++) {
+            System.out.println("\n" + contactList.get(i) + "\n----------------------------");
+        }
+        System.out.println("----------------------------");
+    }
+
+    public void editContact() {
+        Contact contact = null;
+        String name = null;
+
+        System.out.print("\nEnter the First Name of the contact you want to edit : ");
+        name = sc.next();
+        while (contact == null) {
+            contact = getContactToModify(name);
+            if (contact == null) {
+                System.out.print("\nNo such entry exists!\nPlease enter a valid First Name : ");
+                name = sc.next();
+                contact = getContactToModify(name);
+            }
+        }
+        makeEdits(contact);
+    }
+
+    public void makeEdits(Contact contact) {
         int choice = 0;
+
         while (choice < 1 || choice > 4) {
             System.out.println("\nWhat would you like to update?");
             System.out.println("1. Name");
@@ -79,12 +138,12 @@ public class AddressBook {
             System.out.print("\nEnter your choice : ");
             choice = sc.nextInt();
 
-            if (!(choice >=1 && choice <= 4))
+            if (!(choice >= 1 && choice <= 4))
                 System.out.println("\nInvalid choice!\nPlease try again.\n");
         }
 
         switch (choice) {
-            case 1 :
+            case 1:
                 System.out.print("Enter the updated First Name :	");
                 String firstname = sc.next();
                 System.out.print("Enter the updated Last Name :	");
@@ -93,19 +152,19 @@ public class AddressBook {
                 contact.setLastName(lastname);
                 break;
 
-            case 2 :
+            case 2:
                 System.out.print("Enter the updated Phone Number :	");
                 String number = sc.next();
                 contact.setPhoneNumber(number);
                 break;
 
-            case 3 :
+            case 3:
                 System.out.print("Enter the updated Email Address :	");
                 String email = sc.next();
                 contact.setEmailID(email);
                 break;
 
-            case 4 :
+            case 4:
                 System.out.print("Enter the updated City :	");
                 String city = sc.next();
                 System.out.print("Enter the updated State :	");
@@ -122,29 +181,30 @@ public class AddressBook {
         System.out.print("Enter 'Yes' or 'No' : ");
         char continueEdit = sc.next().charAt(0);
         if (continueEdit == 'Y' || continueEdit == 'y') {
-            editContact(contact);
-
-        }
-        else if (continueEdit == 'N' || continueEdit == 'n') {
-            System.out.println("\n\nHere is the updated Address Book.");
+            makeEdits(contact);
+        } else if (continueEdit == 'N' || continueEdit == 'n') {
+            System.out.println("\n\nHere is the updated contact.");
             displayContact(contact);
-        }
-        else {
+        } else {
             System.out.println("\nInvalid Input.\nPlease try again!");
         }
     }
 
-    public void deleteContact(Contact contact) {
-        contact.firstName = null;
-        contact.lastName = null;
-        contact.address.city = null;
-        contact.address.state = null;
-        contact.address.zip = 0;
-        contact.phoneNumber = null;
-        contact.emailID = null;
+    public void deleteContact() {
+        Contact contact = null;
+        String name = null;
 
-        System.out.println("\nHere is the updated Address Book.");
-        displayContact(contact);
+        System.out.print("\nEnter the First Name of the contact you want to delete : ");
+        name = sc.next();
+        while (contact == null) {
+            contact = getContactToModify(name);
+            if (contact == null) {
+                System.out.println("\nNo such entry exists!\nPlease enter a valid First Name.");
+                name = sc.next();
+                contact = getContactToModify(name);
+            }
+        }
+        contactList.remove(contact);
     }
 }
 

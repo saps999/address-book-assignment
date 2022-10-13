@@ -1,5 +1,6 @@
 package com.bridgelabz;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressBook {
@@ -41,8 +42,26 @@ public class AddressBook {
         address.setState(state);
         address.setZip(zip);
         newcontact.setAddress(address);
+
+        ArrayList contactList =new ArrayList<>();
+
+        contactList.add(newcontact);
         displayContact(newcontact);
         editContact(newcontact);
+        System.out.println("\nDo you want to delete the contact?");
+        System.out.print("Enter 'Yes' or 'No' : ");
+        char continueEdit = sc.next().charAt(0);
+        if (continueEdit == 'Y' || continueEdit == 'y') {
+            deleteContact(newcontact);
+
+        }
+        else if (continueEdit == 'N' || continueEdit == 'n') {
+            System.out.println("\n\nHere is the updated Address Book.");
+            displayContact(newcontact);
+        }
+        else {
+            System.out.println("\nInvalid Input.\nPlease try again!");
+        }
     }
 
     public void displayContact(Contact contact) {
@@ -60,12 +79,12 @@ public class AddressBook {
             System.out.print("\nEnter your choice : ");
             choice = sc.nextInt();
 
-            if (!(choice >= 1 && choice <= 4))
+            if (!(choice >=1 && choice <= 4))
                 System.out.println("\nInvalid choice!\nPlease try again.\n");
         }
 
         switch (choice) {
-            case 1:
+            case 1 :
                 System.out.print("Enter the updated First Name :	");
                 String firstname = sc.next();
                 System.out.print("Enter the updated Last Name :	");
@@ -74,19 +93,19 @@ public class AddressBook {
                 contact.setLastName(lastname);
                 break;
 
-            case 2:
+            case 2 :
                 System.out.print("Enter the updated Phone Number :	");
                 String number = sc.next();
                 contact.setPhoneNumber(number);
                 break;
 
-            case 3:
+            case 3 :
                 System.out.print("Enter the updated Email Address :	");
                 String email = sc.next();
                 contact.setEmailID(email);
                 break;
 
-            case 4:
+            case 4 :
                 System.out.print("Enter the updated City :	");
                 String city = sc.next();
                 System.out.print("Enter the updated State :	");
@@ -105,12 +124,27 @@ public class AddressBook {
         if (continueEdit == 'Y' || continueEdit == 'y') {
             editContact(contact);
 
-        } else if (continueEdit == 'N' || continueEdit == 'n') {
+        }
+        else if (continueEdit == 'N' || continueEdit == 'n') {
             System.out.println("\n\nHere is the updated Address Book.");
             displayContact(contact);
-        } else {
+        }
+        else {
             System.out.println("\nInvalid Input.\nPlease try again!");
         }
+    }
+
+    public void deleteContact(Contact contact) {
+        contact.firstName = null;
+        contact.lastName = null;
+        contact.address.city = null;
+        contact.address.state = null;
+        contact.address.zip = 0;
+        contact.phoneNumber = null;
+        contact.emailID = null;
+
+        System.out.println("\nHere is the updated Address Book.");
+        displayContact(contact);
     }
 }
 

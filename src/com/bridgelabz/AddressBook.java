@@ -1,11 +1,7 @@
 package com.bridgelabz;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class AddressBook {
@@ -27,13 +23,14 @@ public class AddressBook {
                 System.out.println("6. Display Persons Count by Location");
                 System.out.println("7. Display Address Book List");
                 System.out.println("8. List all Address Books");
+                System.out.println("9. Sort Address Books Alphabetically");
                 System.out.println("0. Exit");
                 System.out.print("\nEnter your choice : ");
                 choice = sc.nextInt();
 
-                if (!(choice >=0 && choice <= 8))
+                if (!(choice >=0 && choice <= 9))
                     System.out.println("\nInvalid choice!\nPlease try again.\n");
-            }while (!(choice >=0 && choice <= 8));
+            }while (!(choice >=0 && choice <= 9));
 
             switch (choice)
             {
@@ -69,6 +66,10 @@ public class AddressBook {
                     personCountByLocation();
                     break;
 
+                case 9 :
+                    sortAddressBook();
+                    break;
+
                 case 0 :
                     System.out.println("\nEXITED PROGRAM");
                     break;
@@ -76,6 +77,16 @@ public class AddressBook {
         }while(choice != 0);
     }
 
+
+    public void sortAddressBook() {
+        System.out.println("Displaying sorted Address Books : ");
+        for (Entry<String, ArrayList<Contact>> book : addressBookMap.entrySet()) {
+            ArrayList<Contact> sortedList = book.getValue().stream()
+                    .sorted(Comparator.comparing(Contact::getFirstName))
+                    .collect(Collectors.toCollection(ArrayList<Contact>::new));
+            operations.displayAddressBook(book.getKey(), sortedList);
+        }
+    }
 
     private void personCountByLocation() {
         int  choice = 0;
@@ -335,7 +346,6 @@ public class AddressBook {
             operations.displayAddressBook(entry.getKey(), entry.getValue());
         }
     }
-
 
     @Override
     public String toString() {

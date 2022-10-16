@@ -14,7 +14,7 @@ public class AddressBook {
     AddressBookMethods operations = new AddressBookMethods();
 
     public void manageAddressBookList() {
-        int choice = 0;
+        int  choice = 0;
 
         do {
             do {
@@ -24,55 +24,109 @@ public class AddressBook {
                 System.out.println("3. Delete an Existing Address Book");
                 System.out.println("4. Search for Persons");
                 System.out.println("5. Display Persons by Location");
-                System.out.println("6. Display Address Book List");
-                System.out.println("7. List all Address Books");
+                System.out.println("6. Display Persons Count by Location");
+                System.out.println("7. Display Address Book List");
+                System.out.println("8. List all Address Books");
                 System.out.println("0. Exit");
                 System.out.print("\nEnter your choice : ");
                 choice = sc.nextInt();
 
-                if (!(choice >= 0 && choice <= 7))
+                if (!(choice >=0 && choice <= 8))
                     System.out.println("\nInvalid choice!\nPlease try again.\n");
-            } while (!(choice >= 0 && choice <= 7));
+            }while (!(choice >=0 && choice <= 8));
 
-            switch (choice) {
-                case 1:
+            switch (choice)
+            {
+                case 1 :
                     addAddressBook();
                     break;
 
-                case 2:
+                case 2 :
                     editAddressBook();
                     break;
 
-                case 3:
+                case 3 :
                     deleteAddressBook();
                     break;
 
-                case 6:
+                case 7 :
                     displayAddressBookList();
                     break;
 
-                case 7:
+                case  8 :
                     displayAllAddressBooks();
                     break;
 
-                case 4:
+                case  4 :
                     searchOperation();
                     break;
 
-                case 5:
+                case  5 :
                     displayByLocation();
                     break;
 
-                case 0:
+                case  6 :
+                    personCountByLocation();
+                    break;
+
+                case 0 :
                     System.out.println("\nEXITED PROGRAM");
                     break;
             }
-        } while (choice != 0);
+        }while(choice != 0);
+    }
+
+
+    private void personCountByLocation() {
+        int  choice = 0;
+        do {
+            System.out.println("\nDisplay Person Count ");
+            System.out.println("1. By City");
+            System.out.println("2. By State");
+            System.out.print("\nEnter your choice : ");
+            choice = sc.nextInt();
+
+            if (!(choice ==1 || choice == 2))
+                System.out.println("\nInvalid choice!\nPlease try again.\n");
+        }while (!(choice ==1 || choice == 2));
+
+        switch (choice)
+        {
+            case 1 :
+                displayCountByCity();
+                break;
+
+            case 2 :
+                displayCountByState();
+                break;
+
+            default :
+                break;
+        }
+
+    }
+
+
+    private void displayCountByState() {
+        ArrayList<String> states = AddressBookMethods.stateDictionary.values().stream().distinct().collect(Collectors.toCollection(ArrayList::new));
+        for (String state : states) {
+            long count = AddressBookMethods.stateDictionary.entrySet().stream().filter(entry -> entry.getValue().equalsIgnoreCase(state)).count();
+            System.out.println("\nState : '" + state + "'\tPersons : " + count);
+        }
+    }
+
+
+    private void displayCountByCity() {
+        ArrayList<String> cities = AddressBookMethods.cityDictionary.values().stream().distinct().collect(Collectors.toCollection(ArrayList::new));
+        for (String city : cities) {
+            long count = AddressBookMethods.cityDictionary.entrySet().stream().filter(entry -> entry.getValue().equalsIgnoreCase(city)).count();
+            System.out.println("\nCity : '" + city + "'\tPersons : " + count);
+        }
     }
 
 
     public void displayByLocation() {
-        int choice = 0;
+        int  choice = 0;
         do {
             System.out.println("\nDisplay Persons ");
             System.out.println("1. By City");
@@ -80,20 +134,21 @@ public class AddressBook {
             System.out.print("\nEnter your choice : ");
             choice = sc.nextInt();
 
-            if (!(choice == 1 || choice == 2))
+            if (!(choice ==1 || choice == 2))
                 System.out.println("\nInvalid choice!\nPlease try again.\n");
-        } while (!(choice == 1 || choice == 2));
+        }while (!(choice ==1 || choice == 2));
 
-        switch (choice) {
-            case 1:
+        switch (choice)
+        {
+            case 1 :
                 displayByCity();
                 break;
 
-            case 2:
+            case 2 :
                 displayByState();
                 break;
 
-            default:
+            default :
                 break;
         }
     }
@@ -116,7 +171,7 @@ public class AddressBook {
     }
 
     public void searchOperation() {
-        int choice = 0;
+        int  choice = 0;
         do {
             System.out.println("\nSearch for Persons ");
             System.out.println("1. By City");
@@ -124,20 +179,21 @@ public class AddressBook {
             System.out.print("\nEnter your choice : ");
             choice = sc.nextInt();
 
-            if (!(choice == 1 || choice == 2))
+            if (!(choice ==1 || choice == 2))
                 System.out.println("\nInvalid choice!\nPlease try again.\n");
-        } while (!(choice == 1 || choice == 2));
+        }while (!(choice ==1 || choice == 2));
 
-        switch (choice) {
-            case 1:
+        switch (choice)
+        {
+            case 1 :
                 searchByCity();
                 break;
 
-            case 2:
+            case 2 :
                 searchByState();
                 break;
 
-            default:
+            default :
                 break;
         }
     }
@@ -231,7 +287,7 @@ public class AddressBook {
 
         System.out.print("\nEnter the name of the address book you want to edit : ");
         name = sc.next();
-        while (true) {
+        while(true) {
             if (doesAddressBookExist(name)) {
                 listToEdit = addressBookMap.get(name);
                 break;
@@ -263,7 +319,7 @@ public class AddressBook {
         String name = getAddressBookToDelete();
 
         addressBookMap.remove(name);
-        System.out.println("\nSuccessfully removed " + name + " Address Book!\n");
+        System.out.println("\nSuccessfully removed "+name+" Address Book!\n");
     }
 
     public void displayAddressBookList() {

@@ -1,8 +1,16 @@
 package com.bridgelabz;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
 public class AddressBookMethods {
+
     static Scanner sc = new Scanner(System.in);
+    static Map<String, String> cityDictionary = new HashMap<>();
+    static Map<String, String> stateDictionary = new HashMap<>();
+
 
     public void manageAddressBook(String addressBook, ArrayList<Contact> contactList) {
         int  choice = 0;
@@ -45,6 +53,14 @@ public class AddressBookMethods {
                     break;
             }
         }while(choice != 5);
+    }
+
+    public void registerInCityDictionary(Contact contact) {
+        cityDictionary.put(contact.getFirstName(), contact.getAddress().getCity());
+    }
+
+    public void registerInStateDictionary(Contact contact) {
+        stateDictionary.put(contact.getFirstName(), contact.getAddress().getState());
     }
 
     public Contact getContactToModify(String name, ArrayList<Contact> contactList) {
@@ -95,6 +111,8 @@ public class AddressBookMethods {
             newcontact.setEmailID(email);
 
             contactList.add(newcontact);
+            registerInCityDictionary(newcontact);
+            registerInStateDictionary(newcontact);
         }
     }
 

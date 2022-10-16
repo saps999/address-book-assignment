@@ -1,0 +1,7 @@
+[Contact Info : 
+First Name : a
+Last Name : a
+Address :
+City : a	State : a	Zip : a
+Phone Number : a
+Email ID : a]

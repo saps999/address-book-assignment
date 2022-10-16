@@ -93,7 +93,7 @@ public class AddressBookMethods {
             System.out.print("Enter State :	");
             String state = sc.next();
             System.out.print("Enter zip :	");
-            int zip = sc.nextInt();
+            String zip = sc.next();
             System.out.print("Enter Phone Number :	");
             String number = sc.next();
             System.out.print("Enter Email Address :	");
@@ -192,7 +192,7 @@ public class AddressBookMethods {
                 System.out.print("Enter the updated State :	");
                 String state = sc.next();
                 System.out.print("Enter the updated zip :	");
-                int zip = sc.nextInt();
+                String zip = sc.next();
                 contact.address.setCity(city);
                 contact.address.setState(state);
                 contact.address.setZip(zip);
